@@ -13,8 +13,7 @@
 ActiveRecord::Schema.define(version: 2021_12_06_145410) do
 
   create_table "players", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
+    t.string "name"
     t.integer "age"
   end
 

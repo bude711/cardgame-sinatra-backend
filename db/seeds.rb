@@ -5,7 +5,7 @@ Score.destroy_all
 puts "🌱 Seeding players..."
 
 # Seed your database here
-p1 = Player.create(first_name:"Brandi", last_name: "Ude", age: 28 )
+p1 = Player.create(name:"Brandi", age: 28 )
 
 puts "🌱 Seeding scores..."
 
