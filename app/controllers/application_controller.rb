@@ -2,12 +2,22 @@ class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
   
 # only need to do (at least) 3 of the CRUD actions for this project
-  get '/scores' do
+  get "/scores" do
     scores = Score.all
     scores.to_json
   end
+  
+  get "/players" do
+    scores = Player.all
+    scores.to_json
+  end
 
-  post '/player' do
+  get "/players/:id" do
+    scores = Player.all
+    scores.to_json
+  end
+
+  post "/players" do
     player_info = Player.create(
       first_name: params[:first_name],
       last_name: params[:last_name],
@@ -16,7 +26,7 @@ class ApplicationController < Sinatra::Base
     player_info.to_json
   end
 
-  patch '/players/:id' do
+  patch "/players/:id" do
     player = Player.find(params[:id])
     player.update(first_name: params[:first_name])
     player.update(last_name: params[:last_name])
