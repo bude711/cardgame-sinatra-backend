@@ -37,6 +37,7 @@ class ApplicationController < Sinatra::Base
   post "/players" do
     player_info = Player.create(
       name: params[:name],
+      age: params[:age],
     )
     player_info.to_json
     score_info =Score.create(
