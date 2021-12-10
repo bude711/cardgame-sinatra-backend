@@ -6,6 +6,17 @@ class ApplicationController < Sinatra::Base
     scores = Score.all
     scores.to_json
   end
+
+  get "/highscore" do
+    highscore = Score.highest_score
+    player = Player.find(highscore.player_id)
+    playerWithScore = {
+      score: highscore.score,
+      name: player.name,
+      age: player.age
+    }
+    .to_json
+  end
   
   get "/players" do
     scores = Player.all
@@ -26,12 +37,13 @@ class ApplicationController < Sinatra::Base
     player_info.to_json
   end
 
-  patch "/players/:id" do
-    player = Player.find(params[:id])
-    player.update(first_name: params[:first_name])
-    player.update(last_name: params[:last_name])
-    player.update(age: params[:age])
-    player.to_json
+  post "/players/:name" do
+    player = Player.find_by(name: (params[:name]))
+    new_score = Score.create(
+      score: params[:score],
+      player_id: player.id
+    )
+    new_score.to_json
   end
 
 end
