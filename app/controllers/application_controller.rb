@@ -7,34 +7,42 @@ class ApplicationController < Sinatra::Base
     scores.to_json
   end
 
-  get "/highscore" do
-    highscore = Score.highest_score
-    player = Player.find(highscore.player_id)
-    playerWithScore = {
-      score: highscore.score,
-      name: player.name,
-      age: player.age
-    }
-    .to_json
-  end
-  
   get "/players" do
     scores = Player.all
     scores.to_json
   end
 
   get "/players/:id" do
-    scores = Player.all
+    scores = Player.find(param[:id])
     scores.to_json
+  end
+
+  get "/scores/:id" do
+    scores = Score.find(params[:id])
+    scores.to_json
+  end
+
+  get "/highscore" do
+    highscore = Score.highest_score
+    player = Player.find(highscore.player_id)
+    playerWithScore = {
+      score: highscore.score,
+      name: player.name,
+      age: player.age,
+      score_id: highscore.id
+    }
+    playerWithScore.to_json
   end
 
   post "/players" do
     player_info = Player.create(
-      first_name: params[:first_name],
-      last_name: params[:last_name],
-      age: params[:age]
+      name: params[:name],
     )
     player_info.to_json
+    score_info =Score.create(
+      score: params[:score],
+      player_id: player_info.id
+    )
   end
 
   post "/players/:name" do
@@ -45,6 +53,12 @@ class ApplicationController < Sinatra::Base
     )
     new_score.to_json
   end
+
+  delete "/scores/:id" do
+    player_score = Score.find(params[:id])
+    player_score.destroy
+    player_score.to_json
+  end 
 
 end
 
